@@ -2,7 +2,7 @@ import tkinter as tk
 
 window = tk.Tk()
 window.title('Tkinter Demo')
-window.geometry('1024x768')
+window.geometry('1366x1024')
 
 var = tk.StringVar()
 
@@ -81,14 +81,14 @@ t = tk.Text(
 t.pack()
 
 var2 = tk.StringVar()
-var2.set((11, 22, 33, 44))
+var2.set((11, 22, 33))
 
 lb = tk.Listbox(
     window,
     listvariable=var2
 )
 
-list_items = [1, 2, 3, 4]
+list_items = [1, 2, 3]
 for item in list_items:
     lb.insert('end', item)
 lb.insert(1, 'first')
@@ -114,7 +114,7 @@ var3 = tk.StringVar()
 
 label = tk.Label(
     window,
-    bg='green',
+    bg='yellow',
     width=20, height=2,
     text='empty'
 )
@@ -150,4 +150,79 @@ r3 = tk.Radiobutton(
 )
 r3.pack()
 
+
+def print_selection_s(v):
+    label.config(text='You have selected ' + v)
+
+
+s = tk.Scale(
+    window,
+    labe='Scale Slider',
+    from_=5, to=15,
+    orient=tk.HORIZONTAL,
+    length=200, showvalue=0,
+    tickinterval=2, resolution=0.01,
+    command=print_selection_s
+)
+s.pack()
+
+v1 = tk.IntVar()
+v2 = tk.IntVar()
+
+
+def print_selection_c():
+    if (v1.get() == 1) & (v2.get() == 0):
+        label.config(text='I love Python')
+    elif (v1.get() == 0) & (v2.get() == 1):
+        label.config(text='I love Java')
+    elif (v1.get() == 0) & (v2.get() == 0):
+        label.config(text='I don\'t love either')
+    else:
+        label.config(text='I love both')
+
+
+c1 = tk.Checkbutton(
+    window,
+    text='Python',
+    variable=v1,
+    onvalue=1, offvalue=0,
+    command=print_selection_c
+)
+c1.pack()
+c2 = tk.Checkbutton(
+    window,
+    text='Java',
+    variable=v2,
+    onvalue=1, offvalue=0,
+    command=print_selection_c
+)
+c2.pack()
+
+canvas = tk.Canvas(
+    window,
+    bg='#cccccc',
+    height=100, width=200
+)
+canvas.pack()
+
+img_file = tk.PhotoImage(file='ins.gif')
+image = canvas.create_image(10, 10, anchor='nw', image=img_file)
+
+x0, y0, x1, y1 = 50, 50, 80, 80
+line = canvas.create_line(x0, y0, x1, y1)
+oval = canvas.create_oval(x0, y0, x1, y1, fill='red')
+arc = canvas.create_arc(x0 + 30, y0 + 30, x1 + 30, y1 + 30, start=0, extent=180)
+rect = canvas.create_rectangle(100, 30, 100 + 20, 30 + 20)
+
+
+def move_it():
+    canvas.move(rect, 4, 2)
+
+
+btn1 = tk.Button(
+    window,
+    text='move rect',
+    command=move_it
+)
+btn1.pack()
 window.mainloop()
