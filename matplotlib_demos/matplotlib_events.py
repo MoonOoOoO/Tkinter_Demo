@@ -35,9 +35,8 @@ class LineBuilder:
         self.line.figure.canvas.draw()
 
 
-fig = plt.figure(figsize=(10, 10))
-ax = fig.add_subplot(311)
-ax.set_title('click to build line segments')
+fig = plt.figure(figsize=(8, 8))
+ax = fig.add_subplot(411)
 l, = ax.plot([0], [0])
 line_builder = LineBuilder(l)
 
@@ -90,7 +89,7 @@ class DraggableRectangle:
         self.rect.figure.canvas.mpl_disconnect(self.cidMotion)
 
 
-bx = fig.add_subplot(312)
+bx = fig.add_subplot(412)
 rectangles = bx.bar(range(10), 20 * np.random.rand(10))
 drs = []
 for r in rectangles:
@@ -122,9 +121,27 @@ def leave_figure(event):
     event.canvas.draw()
 
 
-fig.canvas.mpl_connect('figure_enter_event', enter_figure)
-fig.canvas.mpl_connect('figure_leave_event', leave_figure)
-fig.canvas.mpl_connect('axes_enter_event', enter_axes)
-fig.canvas.mpl_connect('axes_leave_event', leave_axes)
+# fig.canvas.mpl_connect('figure_enter_event', enter_figure)
+# fig.canvas.mpl_connect('figure_leave_event', leave_figure)
+# fig.canvas.mpl_connect('axes_enter_event', enter_axes)
+# fig.canvas.mpl_connect('axes_leave_event', leave_axes)
+
+cx = fig.add_subplot(413)
+l_cx = cx.plot(np.random.randn(100), 'o', picker=5)
+
+
+def onPick(event):
+    this_line = event.artist
+    xdata = this_line.get_xdata()
+    ydata = this_line.get_ydata()
+    ind = event.ind
+    points = tuple(zip((xdata[ind], ydata[ind])))
+    print(ind)
+    print('onPick points: ', points)
+
+
+cx.figure.canvas.mpl_connect('pick_event', onPick)
+
+dx = fig.add_subplot(414)
 
 plt.show()
