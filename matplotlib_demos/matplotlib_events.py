@@ -130,7 +130,7 @@ cx = fig.add_subplot(413)
 l_cx = cx.plot(np.random.randn(100), 'o', picker=5)
 
 
-def onPick(event):
+def on_pick(event):
     this_line = event.artist
     xdata = this_line.get_xdata()
     ydata = this_line.get_ydata()
@@ -140,8 +140,10 @@ def onPick(event):
     print('onPick points: ', points)
 
 
-cx.figure.canvas.mpl_connect('pick_event', onPick)
+cx.figure.canvas.mpl_connect('pick_event', on_pick)
 
 dx = fig.add_subplot(414)
+X = np.random.rand(100, 1000)
 
 plt.show()
+
