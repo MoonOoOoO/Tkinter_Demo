@@ -11,12 +11,12 @@ window.wm_title("Embedding in TK")
 t = np.arange(0.0, 2.0, 0.01)
 s = 1 + np.sin(2 * np.pi * t)
 
-figure = Figure(figsize=(5, 4), dpi=100)
+figure = Figure(figsize=(10, 8), dpi=100)
 ax = figure.add_subplot(311)
 ax.plot(t, s)
 
-ax.set(xlabel='time(s)', ylabel='voltage(mV)',
-       title='About as simple as it gets, folks')
+# ax.set(xlabel='time(s)', ylabel='voltage(mV)',
+#        title='About as simple as it gets, folks')
 
 ax.grid()
 
@@ -32,7 +32,7 @@ bx.set(ylabel='Damped oscillation')
 
 cx = figure.add_subplot(313)
 cx.plot(x2, y2, '.-')
-bx.set(xlabel='time(s)', ylabel='Un-damped')
+# bx.set(xlabel='time(s)', ylabel='Un-damped')
 
 canvas = FigureCanvasTkAgg(figure, master=window)
 canvas.show()
@@ -52,5 +52,5 @@ def _quit():
 button = tk.Button(
     window, text="Quit", command=_quit
 )
-button.pack(side=tk.BOTTOM)
+button.place(x=10, y=10, width=100, height=30)
 window.mainloop()
