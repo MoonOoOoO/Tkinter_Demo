@@ -127,7 +127,7 @@ def leave_figure(event):
 # fig.canvas.mpl_connect('axes_leave_event', leave_axes)
 
 cx = fig.add_subplot(413)
-l_cx = cx.plot(np.random.randn(100), 'o', picker=5)
+l_cx, = cx.plot(np.random.randn(100), 'o', picker=5)
 
 
 def on_pick(event):
@@ -144,6 +144,29 @@ cx.figure.canvas.mpl_connect('pick_event', on_pick)
 
 dx = fig.add_subplot(414)
 X = np.random.rand(100, 1000)
+xs = np.mean(X, axis=1)
+ys = np.std(X, axis=1, ddof=1)
 
+l_dx, = dx.plot(xs, ys, 's', picker=5)
+
+
+def on_pick_dx(event):
+    if event.artist != l_dx:
+        print('on pick dx')
+        return True
+    N = len(event.ind)
+    if not N:
+        return True
+
+    fig_i = plt.figure()
+    for subplot_num, data_ind in enumerate(event.ind):
+        dx = fig_i.add_subplot(N, 1, subplot_num + 1)
+        dx.plot(X[data_ind])
+        dx.text(0.05, 0.9, 'Mu=%1.3f\nSigma=%1.3f' % (xs[data_ind], ys[data_ind]),
+                transform=ax.transAxes, va='top')
+        fig_i.show()
+        return True
+
+
+dx.figure.canvas.mpl_connect('pick_event', on_pick_dx)
 plt.show()
-
