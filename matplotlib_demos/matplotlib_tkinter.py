@@ -18,7 +18,6 @@ ax.plot(t, s)
 # ax.set(xlabel='time(s)', ylabel='voltage(mV)',
 #        title='About as simple as it gets, folks')
 
-ax.grid()
 
 x1 = np.linspace(0.0, 5.0)
 x2 = np.linspace(0.0, 2.0)

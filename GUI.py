@@ -1,9 +1,10 @@
 import numpy as np
 import tkinter as tk
 import matplotlib
-from matplotlib import pyplot as plt
-from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+points = []
 
 
 def center_window(root, width, height):
@@ -25,13 +26,13 @@ frmCanvas.grid(row=1, column=0)
 
 frmBtn.grid_propagate(0)
 
-fig = plt.figure(figsize=(8, 4))
+fig = Figure(figsize=(8, 4))
 ax = fig.add_subplot(111)
 x = np.arange(-7, 7, 0.1)
 y = x * x
-ax.plot()
-ax.set_xlim(0, 50)
-ax.set_ylim(0, 50)
+ax.plot([1, 2, 3, 4], [1, 4, 9, 16], 'o')
+# ax.set_xlim(-20, 20)
+# ax.set_ylim(0, 50)
 
 # ax.spines['right'].set_color('none')
 # ax.spines['top'].set_color('none')
@@ -44,39 +45,44 @@ canvas.draw()
 canvas.get_tk_widget().pack()
 
 
-# 把matplotlib绘制图形的导航工具栏显示到tkinter窗口上
-# toolbar = NavigationToolbar2Tk(canvas, window)
-# toolbar.update()
+def click_on_canvas(event):
+    points.append([event.xdata, event.ydata])
+    ax.plot([event.xdata], [event.ydata], 'ro')
+    ax.figure.canvas.draw()
+    print(points)
 
-# canvas.tkcanvas.pack(side=tk.TOP, fill=tk.BOTH)
+
+fig.canvas.mpl_connect('button_press_event', click_on_canvas)
 
 
 def _quit():
     window.destroy()
     window.quit()
+    quit()
 
 
-btn1 = tk.Button(
-    frmBtn, text='Quit1', command=_quit,
-    width=12, height=2
-)
-btn1.grid(column=0, row=0, pady=20, padx=20)
+global btn_i
+btn_i = 0
 
-btn2 = tk.Button(
-    frmBtn, text='Quit2', command=_quit,
-    width=12, height=2
-)
-btn2.grid(column=1, row=0, pady=20, padx=20)
 
-btn3 = tk.Button(
-    frmBtn, text='Quit3', command=_quit,
-    width=12, height=2
-)
-btn3.grid(column=2, row=0, pady=20, padx=20)
+def add_button(text, command):
+    global btn_i
+    btn = tk.Button(
+        frmBtn, text=text, command=command,
+        width=12, height=2
+    )
+    btn.grid(column=btn_i, row=0, pady=20, padx=20)
+    btn_i = btn_i + 1
+
+
+add_button('Quit1', _quit)
+add_button('Quit2', _quit)
+add_button('Quit3', _quit)
+add_button('Quit4', _quit)
 
 rd1 = tk.Checkbutton(
     frmBtn, text='Radio one', onvalue=1, offvalue=0,
 )
-rd1.grid(column=3, row=0)
+rd1.grid(column=4, row=0)
 
 tk.mainloop()
