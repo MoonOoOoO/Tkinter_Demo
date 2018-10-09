@@ -46,6 +46,8 @@ canvas.get_tk_widget().pack()
 
 
 def click_on_canvas(event):
+    if int(event.xdata) < 0 or int(event.ydata) < 0:
+        return
     points.append([event.xdata, event.ydata])
     ax.plot([event.xdata], [event.ydata], 'ro')
     ax.figure.canvas.draw()
